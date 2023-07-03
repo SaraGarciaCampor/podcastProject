@@ -29,7 +29,7 @@ const routesConfig = [
       },
       {
         exact: true,
-        path: '/app/podcast',
+        path: '/app/podcast/:id',
         component: lazy(() => import('./views/reports/DashboardAlternativeView/PodcastDetails'))
       },
       {

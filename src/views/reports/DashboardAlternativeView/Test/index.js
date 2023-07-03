@@ -42,8 +42,7 @@ function Test({ className, ...rest }) {
   const [podcasts, setPodcasts] = useState(null);
 
   const handleClickOpen = (id) => {
-    history.push(`/podcast/${id}`);
-    console.log(`id:${id}`);
+    history.push(`/app/podcast/${id}`);
   };
 
   const getPodcasts = useCallback(async () => {
