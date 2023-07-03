@@ -3,6 +3,8 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
+
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
@@ -36,10 +38,12 @@ const useStyles = makeStyles((theme) => ({
 
 function Test({ className, ...rest }) {
   const classes = useStyles();
+  const history = useHistory();
   const [podcasts, setPodcasts] = useState(null);
 
-  const handleClickOpen = () => {
-    console.log('holi');
+  const handleClickOpen = (id) => {
+    history.push(`/podcast/${id}`);
+    console.log(`id:${id}`);
   };
 
   const getPodcasts = useCallback(async () => {
@@ -81,7 +85,7 @@ function Test({ className, ...rest }) {
             {podcasts.feed.entry.map((label, i) => (
               <Grid item xs={2} sm={2} md={2} xl={2} justify="center" alignItems="center">
                 <Card>
-                  <CardActionArea onClick={handleClickOpen()}>
+                  <CardActionArea onClick={() => handleClickOpen(podcasts.feed.entry[i].id.attributes['im:id'])}>
                     <CardMedia
                       component="img"
                       className={classes.media}

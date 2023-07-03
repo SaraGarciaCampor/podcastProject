@@ -28,7 +28,7 @@ async function GetPodcast(setPodcast, id) {
       'Content-Type': 'application/json',
     },
   };
-  const uri = `https://itunes.apple.com/lookup?id=${id}`;
+  const uri = ` https://itunes.apple.com/lookup?id=${id}`;
 
   await axios
     .get(uri, config)
