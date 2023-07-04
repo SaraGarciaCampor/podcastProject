@@ -15,9 +15,8 @@ import {
   makeStyles,
   Typography
 } from '@material-ui/core';
-import GenericMoreButton from 'src/components/GenericMoreButton';
 import { itunesService } from 'src/services/itunesService';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -36,39 +35,144 @@ const useStyles = makeStyles((theme) => ({
 
 function PodcastDetails() {
   const classes = useStyles();
-  const { podId } = useParams();
-  console.log('holi');
-  console.log(podId);
+  const location = useLocation();
+  const podcastData = location.state;
+  console.log(podcastData.someData.id.attributes['im:id']);
   const [podcast, setPodcast] = useState(null);
 
   const getPodcastDetails = useCallback(async () => {
-    await itunesService.GetPodcast(setPodcast, '1535809341');
-  }, []);
+    await itunesService.GetPodcast(setPodcast, podcastData.someData.id.attributes['im:id']);
+  }, [podcast]);
 
   useEffect(() => {
     if (podcast === null) {
       getPodcastDetails();
     }
-  }, [getPodcastDetails, podcast]);
+  }, []);
+
+  useEffect(() => {
+    console.log(podcast);
+  }, [podcast]);
 
   if (!podcast) {
     return null;
   }
 
   return (
-    <Card
-      className={clsx(classes.root)}
-    >
-      <Box>
-        
-      </Box>
-      <CardHeader
-        action={<GenericMoreButton />}
-        title="Podcast"
-      />
-      <Divider />
-      <Divider />
-    </Card>
+    <Box display="flex" justifyContent="space-between">
+      <Card
+        className={clsx(classes.root)}
+        style={{ maxWidth: '25vw' }}
+      >
+        <CardHeader
+          title="Podcast"
+        />
+        <Divider />
+        <Box>
+          <Card>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                className={classes.media}
+                style={{
+                  padding: 5,
+                  width: 'auto',
+                  maxHeight: '500px'
+                }}
+                image={podcast.results[0].artworkUrl100}
+                alt="Image"
+              />
+              <CardContent>
+                <Typography
+                  variant="h4"
+                  color="textPrimary"
+                  key={podcastData.someData['im:name'].label}
+                >
+                  {podcastData.someData['im:name'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podcastData.someData['im:artist'].label}
+                >
+                  by
+                  {' '}
+                  {podcastData.someData['im:artist'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podcastData.someData.summary.label}
+                >
+                  Description:
+                  {' '}
+                  {podcastData.someData.summary.label}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Box>
+        <Divider />
+      </Card>
+      <Card
+        className={clsx(classes.root)}
+        style={{ maxWidth: '25vw' }}
+      >
+        <CardHeader
+          title="Episodes"
+        />
+        <Divider />
+        <Box>
+          <Card>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                className={classes.media}
+                style={{
+                  padding: 5,
+                  width: 'auto',
+                  maxHeight: '500px'
+                }}
+                image={podcast.results[0].artworkUrl100}
+                alt="Image"
+              />
+              <CardContent>
+                <Typography
+                  variant="h4"
+                  color="textPrimary"
+                  key={podcastData.someData['im:name'].label}
+                >
+                  {podcastData.someData['im:name'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podcastData.someData['im:artist'].label}
+                >
+                  by
+                  {' '}
+                  {podcastData.someData['im:artist'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podcastData.someData.summary.label}
+                >
+                  Description:
+                  {' '}
+                  {podcastData.someData.summary.label}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Box>
+        <Divider />
+      </Card>
+    </Box>
   );
 }
 

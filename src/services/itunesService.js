@@ -12,7 +12,6 @@ async function GetPodcasts(setPodcasts) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     setPodcasts(data);
   } catch (error) {
     console.error(error);
@@ -23,16 +22,16 @@ async function GetPodcasts(setPodcasts) {
 async function GetPodcast(setPodcast, id) {
   const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
   const itunesUrl = `https://itunes.apple.com/lookup?id=${id}`;
+
   try {
-    fetch(corsAnywhereUrl + itunesUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setPodcast(data);
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const response = await fetch(corsAnywhereUrl + itunesUrl);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch podcast data');
+    }
+
+    const data = await response.json();
+    setPodcast(data);
   } catch (error) {
     console.error(error);
   }

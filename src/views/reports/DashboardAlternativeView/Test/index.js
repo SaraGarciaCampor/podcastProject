@@ -40,8 +40,10 @@ function Test({ className, ...rest }) {
   const history = useHistory();
   const [podcasts, setPodcasts] = useState(null);
 
-  const handleClickOpen = (id) => {
-    history.push(`/app/podcast/${id}`);
+  const handleClickOpen = (data) => {
+    console.log(data);
+    const id = data.someData.id.attributes['im:id'];
+    history.push({ pathname: `/app/podcast/${id}`, state: data });
   };
 
   const getPodcasts = useCallback(async () => {
@@ -83,7 +85,9 @@ function Test({ className, ...rest }) {
             {podcasts.feed.entry.map((label, i) => (
               <Grid item xs={2} sm={2} md={2} xl={2} justify="center" alignItems="center">
                 <Card>
-                  <CardActionArea onClick={() => handleClickOpen(podcasts.feed.entry[i].id.attributes['im:id'])}>
+                  <CardActionArea
+                    onClick={() => handleClickOpen({ someData: podcasts.feed.entry[i] })}
+                  >
                     <CardMedia
                       component="img"
                       className={classes.media}
