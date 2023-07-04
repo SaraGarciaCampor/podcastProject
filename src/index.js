@@ -21,6 +21,7 @@ enableES5();
 const store = configureStore();
 const settings = restoreSettings();
 
+
 ReactDOM.render(
   <Provider store={store}>
     <SettingsProvider settings={settings}>

@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 // eslint-disable-next-line import/prefer-default-export
 export const itunesService = {
@@ -22,20 +21,19 @@ async function GetPodcasts(setPodcasts) {
 
 
 async function GetPodcast(setPodcast, id) {
-  const config = {
-    headers: {
-      Authorization: sessionStorage.getItem('access_token'),
-      'Content-Type': 'application/json',
-    },
-  };
-  const uri = ` https://itunes.apple.com/lookup?id=${id}`;
-
-  await axios
-    .get(uri, config)
-    .then((response) => {
-      setPodcast(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+  const itunesUrl = `https://itunes.apple.com/lookup?id=${id}`;
+  try {
+    fetch(corsAnywhereUrl + itunesUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setPodcast(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';

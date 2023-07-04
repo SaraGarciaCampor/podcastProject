@@ -11,6 +11,7 @@ import {
 } from 'react-router-dom';
 import DashboardLayout from './layouts/DashboardLayout';
 import LoadingScreen from './components/LoadingScreen';
+import PodcastDetails from './views/reports/DashboardAlternativeView/PodcastDetails';
 
 const routesConfig = [
   {
@@ -30,7 +31,7 @@ const routesConfig = [
       {
         exact: true,
         path: '/app/podcast/:id',
-        component: lazy(() => import('./views/reports/DashboardAlternativeView/PodcastDetails'))
+        component: PodcastDetails
       },
       {
         component: () => <Redirect to="/404" />
