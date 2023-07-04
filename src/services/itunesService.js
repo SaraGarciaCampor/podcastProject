@@ -10,7 +10,7 @@ export const itunesService = {
 };
 
 async function GetPodcasts(setPodcasts) {
-  const url = new URL('https://itunes.apple.com/us/rss/toppodcasts/limit=10/genre=1310/json');
+  const url = new URL('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json');
   try {
     const response = await fetch(url);
     const data = await response.json();

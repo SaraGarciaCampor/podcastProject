@@ -4,9 +4,6 @@ import {
   Grid,
   makeStyles,
 } from '@material-ui/core';
-import {
-  Search as SearchIcon,
-} from 'react-feather';
 import Page from 'src/components/Page';
 import Test from './Test';
 import Header from './Header';

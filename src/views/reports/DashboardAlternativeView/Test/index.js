@@ -21,7 +21,9 @@ import {
   SvgIcon,
   Grid,
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
+import {
+  Search as SearchIcon,
+} from 'react-feather';
 import { itunesService } from 'src/services/itunesService';
 
 const useStyles = makeStyles((theme) => ({

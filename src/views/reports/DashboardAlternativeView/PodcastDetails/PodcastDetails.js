@@ -7,6 +7,7 @@ import clsx from 'clsx';
 import {
   Box,
   Card,
+  CardActionArea,
   CardHeader,
   CardContent,
   CardMedia,
@@ -23,6 +24,8 @@ import {
 } from '@material-ui/core';
 import { itunesService } from 'src/services/itunesService';
 import { useHistory, useLocation } from 'react-router-dom';
+import { format } from 'date-fns';
+import { toDate } from 'date-fns-tz';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -79,6 +82,29 @@ function PodcastDetails() {
     history.push({ pathname: `/app/podcast/${id}/episode/${eid}`, state: { podcastData, ep } });
   };
 
+  const handleClickOpenPodcast = () => {
+    const id = podcastData.someData.id.attributes['im:id'];
+    history.push({ pathname: `/app/podcast/${id}`, state: podcastData });
+  };
+
+  const formatDate = (dateString) => {
+    console.log(dateString);
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+  };
+
+  const formatTime = (timeInMilliseconds) => {
+    const totalSeconds = Math.floor(timeInMilliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    return formattedTime;
+  };
+
   return (
     <Box display="flex" justifyContent="space-between">
       <Card
@@ -91,46 +117,50 @@ function PodcastDetails() {
         <Divider />
         <Box>
           <Card>
-            <CardMedia
-              component="img"
-              className={classes.media}
-              style={{
-                padding: 5,
-                width: 'auto',
-                maxHeight: '500px'
-              }}
-              image={podcast.results[0].artworkUrl100}
-              alt="Image"
-            />
-            <CardContent>
-              <Typography
-                variant="h4"
-                color="textPrimary"
-                key={podcastData.someData['im:name'].label}
-              >
-                {podcastData.someData['im:name'].label}
-              </Typography>
-              <br />
-              <Typography
-                variant="h5"
-                color="textSecondary"
-                key={podcastData.someData.id.attributes['im:id']}
-              >
-                by
-                {' '}
-                {podcastData.someData['im:artist'].label}
-              </Typography>
-              <br />
-              <Typography
-                variant="h5"
-                color="textSecondary"
-                key={podcastData.someData.summary.label}
-              >
-                Description:
-                {' '}
-                {podcastData.someData.summary.label}
-              </Typography>
-            </CardContent>
+            <CardActionArea
+              onClick={() => handleClickOpenPodcast}
+            >
+              <CardMedia
+                component="img"
+                className={classes.media}
+                style={{
+                  padding: 5,
+                  width: 'auto',
+                  maxHeight: '500px'
+                }}
+                image={podcast.results[0].artworkUrl100}
+                alt="Image"
+              />
+              <CardContent>
+                <Typography
+                  variant="h4"
+                  color="textPrimary"
+                  key={podcastData.someData['im:name'].label}
+                >
+                  {podcastData.someData['im:name'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podcastData.someData.id.attributes['im:id']}
+                >
+                  by
+                  {' '}
+                  {podcastData.someData['im:artist'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podcastData.someData.summary.label}
+                >
+                  Description:
+                  {' '}
+                  {podcastData.someData.summary.label}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
           </Card>
         </Box>
         <Divider />
@@ -175,10 +205,10 @@ function PodcastDetails() {
                         </Typography>
                       </TableCell>
                       <TableCell>
-                        {ep.releaseDate}
+                        {formatDate(ep.releaseDate)}
                       </TableCell>
                       <TableCell>
-                        {ep.trackTimeMillis}
+                        {formatTime(ep.trackTimeMillis)}
                       </TableCell>
                     </TableRow>
                   );

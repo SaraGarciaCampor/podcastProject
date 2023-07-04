@@ -13,8 +13,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import {
-  BarChart as BarChartIcon,
-  PieChart as PieChartIcon,
+  Headphones as HeadphonesIcon,
 } from 'react-feather';
 import NavItem from './NavItem';
 
@@ -23,14 +22,9 @@ const navConfig = [
     items: [
       {
         title: 'Dashboard',
-        icon: PieChartIcon,
-        href: '/app/reports/dashboard'
+        icon: HeadphonesIcon,
+        href: '/app'
       },
-      {
-        title: 'Dashboard Alternative',
-        icon: BarChartIcon,
-        href: '/app/reports/dashboard-alternative'
-      }
     ]
   },
 

@@ -7,11 +7,13 @@ import {
   Hidden,
   IconButton,
   Toolbar,
+  Typography,
   makeStyles,
   SvgIcon
 } from '@material-ui/core';
 import { Menu as MenuIcon } from 'react-feather';
 import { THEMES } from 'src/constants';
+import { useHistory } from 'react-router-dom';
 import Settings from './Settings';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +38,11 @@ function TopBar({
   ...rest
 }) {
   const classes = useStyles();
+  const history = useHistory();
+
+  const handleClickOpen = () => {
+    history.push('/app');
+  };
 
   return (
     <AppBar
@@ -43,17 +50,9 @@ function TopBar({
       {...rest}
     >
       <Toolbar className={classes.toolbar}>
-        <Hidden lgUp>
-          <IconButton
-            className={classes.menuButton}
-            color="inherit"
-            onClick={onMobileNavOpen}
-          >
-            <SvgIcon fontSize="small">
-              <MenuIcon />
-            </SvgIcon>
-          </IconButton>
-        </Hidden>
+        <Typography onClick={() => handleClickOpen}>
+          PODCASTER
+        </Typography>
         <Box
           ml={2}
           flexGrow={1}
