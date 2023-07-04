@@ -5,6 +5,8 @@ export const itunesService = {
   GetPodcasts,
   // eslint-disable-next-line no-use-before-define
   GetPodcast,
+  // eslint-disable-next-line no-use-before-define
+  GetEpisodes,
 };
 
 async function GetPodcasts(setPodcasts) {
@@ -32,6 +34,24 @@ async function GetPodcast(setPodcast, id) {
 
     const data = await response.json();
     setPodcast(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function GetEpisodes(setEpisodes, id) {
+  const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
+  const itunesUrl = `https://itunes.apple.com/lookup?id=${id}&country=US&media=podcast&entity=podcastEpisode&limit=100`;
+
+  try {
+    const response = await fetch(corsAnywhereUrl + itunesUrl);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch podcast episodes data');
+    }
+
+    const data = await response.json();
+    setEpisodes(data);
   } catch (error) {
     console.error(error);
   }

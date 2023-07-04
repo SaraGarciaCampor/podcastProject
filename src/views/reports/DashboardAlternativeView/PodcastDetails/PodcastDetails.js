@@ -8,15 +8,21 @@ import {
   Box,
   Card,
   CardHeader,
-  CardActionArea,
   CardContent,
   CardMedia,
   Divider,
   makeStyles,
-  Typography
+  Typography,
+  Table,
+  TableContainer,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
 } from '@material-ui/core';
 import { itunesService } from 'src/services/itunesService';
-import { useLocation } from 'react-router-dom';
+import {useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -36,27 +42,42 @@ const useStyles = makeStyles((theme) => ({
 function PodcastDetails() {
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
   const podcastData = location.state;
-  console.log(podcastData.someData.id.attributes['im:id']);
   const [podcast, setPodcast] = useState(null);
+  const [episodes, setEpisodes] = useState(null);
 
   const getPodcastDetails = useCallback(async () => {
     await itunesService.GetPodcast(setPodcast, podcastData.someData.id.attributes['im:id']);
-  }, [podcast]);
+  }, [podcastData]);
+
+  const getPodcastEpisodes = useCallback(async () => {
+    await itunesService.GetEpisodes(setEpisodes, podcastData.someData.id.attributes['im:id']);
+    console.log(episodes);
+  }, [podcastData]);
 
   useEffect(() => {
     if (podcast === null) {
       getPodcastDetails();
+      getPodcastEpisodes();
     }
-  }, []);
+  }, [getPodcastDetails, getPodcastEpisodes]);
 
   useEffect(() => {
     console.log(podcast);
-  }, [podcast]);
+    console.log(episodes);
+  }, [podcast, episodes]);
 
   if (!podcast) {
     return null;
   }
+
+  const handleClickOpen = (epid) => {
+    console.log(epid);
+    const id = podcastData.someData.id.attributes['im:id'];
+    const eid = epid.someData;
+    history.push({ pathname: `/app/podcast/${id}/episode/${eid}`, state: podcastData });
+  };
 
   return (
     <Box display="flex" justifyContent="space-between">
@@ -70,105 +91,101 @@ function PodcastDetails() {
         <Divider />
         <Box>
           <Card>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                className={classes.media}
-                style={{
-                  padding: 5,
-                  width: 'auto',
-                  maxHeight: '500px'
-                }}
-                image={podcast.results[0].artworkUrl100}
-                alt="Image"
-              />
-              <CardContent>
-                <Typography
-                  variant="h4"
-                  color="textPrimary"
-                  key={podcastData.someData['im:name'].label}
-                >
-                  {podcastData.someData['im:name'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podcastData.someData['im:artist'].label}
-                >
-                  by
-                  {' '}
-                  {podcastData.someData['im:artist'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podcastData.someData.summary.label}
-                >
-                  Description:
-                  {' '}
-                  {podcastData.someData.summary.label}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+            <CardMedia
+              component="img"
+              className={classes.media}
+              style={{
+                padding: 5,
+                width: 'auto',
+                maxHeight: '500px'
+              }}
+              image={podcast.results[0].artworkUrl100}
+              alt="Image"
+            />
+            <CardContent>
+              <Typography
+                variant="h4"
+                color="textPrimary"
+                key={podcastData.someData['im:name'].label}
+              >
+                {podcastData.someData['im:name'].label}
+              </Typography>
+              <br />
+              <Typography
+                variant="h5"
+                color="textSecondary"
+                key={podcastData.someData.id.attributes['im:id']}
+              >
+                by
+                {' '}
+                {podcastData.someData['im:artist'].label}
+              </Typography>
+              <br />
+              <Typography
+                variant="h5"
+                color="textSecondary"
+                key={podcastData.someData.summary.label}
+              >
+                Description:
+                {' '}
+                {podcastData.someData.summary.label}
+              </Typography>
+            </CardContent>
           </Card>
         </Box>
         <Divider />
       </Card>
       <Card
         className={clsx(classes.root)}
-        style={{ maxWidth: '25vw' }}
+        style={{ width: '75vw' }}
       >
         <CardHeader
           title="Episodes"
         />
         <Divider />
         <Box>
-          <Card>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                className={classes.media}
-                style={{
-                  padding: 5,
-                  width: 'auto',
-                  maxHeight: '500px'
-                }}
-                image={podcast.results[0].artworkUrl100}
-                alt="Image"
-              />
-              <CardContent>
-                <Typography
-                  variant="h4"
-                  color="textPrimary"
-                  key={podcastData.someData['im:name'].label}
-                >
-                  {podcastData.someData['im:name'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podcastData.someData['im:artist'].label}
-                >
-                  by
-                  {' '}
-                  {podcastData.someData['im:artist'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podcastData.someData.summary.label}
-                >
-                  Description:
-                  {' '}
-                  {podcastData.someData.summary.label}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell variant="head">
+                    <Typography variant="textPrimary" color="textPrimary">
+                      Title
+                    </Typography>
+                  </TableCell>
+                  <TableCell variant="head">
+                    <Typography variant="textPrimary" color="textPrimary">
+                      Date
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="textPrimary" color="textPrimary">
+                      Duration
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {episodes && episodes.results.map((ep) => {
+                  return (
+                    <TableRow>
+                      <TableCell>
+                        <Typography onClick={() => handleClickOpen({ someData: ep.trackId })}>
+                          {ep.trackName}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>
+                        {ep.releaseDate}
+                      </TableCell>
+                      <TableCell>
+                        {ep.trackTimeMillis}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
         <Divider />
       </Card>
