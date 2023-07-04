@@ -12,7 +12,7 @@ import {
 import DashboardLayout from './layouts/DashboardLayout';
 import LoadingScreen from './components/LoadingScreen';
 import PodcastDetails from './views/reports/DashboardAlternativeView/PodcastDetails';
-import EarningsSegmentation from './views/reports/DashboardAlternativeView/EarningsSegmentation';
+import EpisodeDetails from './views/reports/DashboardAlternativeView/EpisodeDetails';
 
 const routesConfig = [
   {
@@ -37,7 +37,7 @@ const routesConfig = [
       {
         exact: true,
         path: '/app/podcast/:id/episode/:id',
-        component: EarningsSegmentation
+        component: EpisodeDetails
       },
       {
         component: () => <Redirect to="/404" />

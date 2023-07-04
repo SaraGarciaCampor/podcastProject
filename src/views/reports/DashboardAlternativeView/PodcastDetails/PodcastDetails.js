@@ -22,7 +22,7 @@ import {
   Paper,
 } from '@material-ui/core';
 import { itunesService } from 'src/services/itunesService';
-import {useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -72,11 +72,11 @@ function PodcastDetails() {
     return null;
   }
 
-  const handleClickOpen = (epid) => {
-    console.log(epid);
+  const handleClickOpen = (ep) => {
+    console.log(ep);
     const id = podcastData.someData.id.attributes['im:id'];
-    const eid = epid.someData;
-    history.push({ pathname: `/app/podcast/${id}/episode/${eid}`, state: podcastData });
+    const eid = ep.someData.trackId;
+    history.push({ pathname: `/app/podcast/${id}/episode/${eid}`, state: { podcastData, ep } });
   };
 
   return (
@@ -170,7 +170,7 @@ function PodcastDetails() {
                   return (
                     <TableRow>
                       <TableCell>
-                        <Typography onClick={() => handleClickOpen({ someData: ep.trackId })}>
+                        <Typography onClick={() => handleClickOpen({ someData: ep })}>
                           {ep.trackName}
                         </Typography>
                       </TableCell>
