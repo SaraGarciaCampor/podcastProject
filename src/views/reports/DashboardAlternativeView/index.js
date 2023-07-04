@@ -3,10 +3,6 @@ import {
   Container,
   Grid,
   makeStyles,
-  Box,
-  TextField,
-  InputAdornment,
-  SvgIcon,
 } from '@material-ui/core';
 import {
   Search as SearchIcon,
@@ -53,22 +49,6 @@ function DashboardAlternativeView() {
             lg={12}
             xs={12}
           >
-            <Box mb={2} minHeight={56} display="flex" alignItems="center">
-              <TextField
-                className={classes.queryField}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon fontSize="small" color="action">
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  ),
-                }}
-                placeholder="Search podcasts"
-                variant="outlined"
-              />
-            </Box>
             <Test />
           </Grid>
         </Grid>
