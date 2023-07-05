@@ -5,7 +5,7 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import Page from 'src/components/Page';
-import Test from './Test';
+import PodcastView from './PodcastView';
 import Header from './Header';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,7 @@ function DashboardAlternativeView() {
             lg={12}
             xs={12}
           >
-            <Test />
+            <PodcastView />
           </Grid>
         </Grid>
       </Container>
