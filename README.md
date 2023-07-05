@@ -14,7 +14,7 @@ You will see the build errors and lint warnings in the console.
 <img src='https://cdn.jsdelivr.net/gh/marionebl/create-react-app@9f6282671c54f0874afd37a72f6689727b562498/screencast-error.svg' width='600' alt='Build errors'>
 </p>
 
-If the code does not compile try to run the following flag before running again<br>
+If the code does not run try to run the following flag before running again npm start<br>
 
 Windows: $env:NODE_OPTIONS = "--openssl-legacy-provider"
 Linux: export NODE_OPTIONS=--openssl-legacy-provider
