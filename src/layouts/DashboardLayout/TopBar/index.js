@@ -4,14 +4,10 @@ import clsx from 'clsx';
 import {
   AppBar,
   Box,
-  Hidden,
-  IconButton,
   Toolbar,
   Typography,
   makeStyles,
-  SvgIcon
 } from '@material-ui/core';
-import { Menu as MenuIcon } from 'react-feather';
 import { THEMES } from 'src/constants';
 import { useHistory } from 'react-router-dom';
 import Settings from './Settings';

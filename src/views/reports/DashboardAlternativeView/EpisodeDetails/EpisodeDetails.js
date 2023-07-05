@@ -13,10 +13,11 @@ import {
   Divider,
   makeStyles,
   Typography,
+  CardActionArea,
 } from '@material-ui/core';
 import AudioPlayer from 'src/components/AudioPlayer';
 import { itunesService } from 'src/services/itunesService';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -36,9 +37,10 @@ const useStyles = makeStyles((theme) => ({
 function PodcastDetails() {
   const classes = useStyles();
   const location = useLocation();
+  const history = useHistory();
   const podData = location.state.podcastData;
   const episodeData = location.state.ep;
-  console.log(episodeData);
+  console.log(podData);
   const [podcast, setPodcast] = useState(null);
 
   const getPodcastDetails = useCallback(async () => {
@@ -60,6 +62,12 @@ function PodcastDetails() {
     return null;
   }
 
+  const handleClickOpenPodcast = () => {
+    const id = podData.someData.id.attributes['im:id'];
+    console.log('id');
+    history.push({ pathname: `/app/podcast/${id}`, state: podData });
+  };
+
   return (
     <Box display="flex" justifyContent="space-between">
       <Card
@@ -71,47 +79,49 @@ function PodcastDetails() {
         />
         <Divider />
         <Box>
-          <Card>
-            <CardMedia
-              component="img"
-              className={classes.media}
-              style={{
-                padding: 5,
-                width: 'auto',
-                maxHeight: '500px'
-              }}
-              image={podcast.results[0].artworkUrl100}
-              alt="Image"
-            />
-            <CardContent>
-              <Typography
-                variant="h4"
-                color="textPrimary"
-                key={podData.someData['im:name'].label}
-              >
-                {podData.someData['im:name'].label}
-              </Typography>
-              <br />
-              <Typography
-                variant="h5"
-                color="textSecondary"
-                key={podData.someData.id.attributes['im:id']}
-              >
-                by
-                {' '}
-                {podData.someData['im:artist'].label}
-              </Typography>
-              <br />
-              <Typography
-                variant="h5"
-                color="textSecondary"
-                key={podData.someData.summary.label}
-              >
-                Description:
-                {' '}
-                {podData.someData.summary.label}
-              </Typography>
-            </CardContent>
+          <Card onClick={handleClickOpenPodcast}>
+            <CardActionArea>
+              <CardMedia
+                component="img"
+                className={classes.media}
+                style={{
+                  padding: 5,
+                  width: 'auto',
+                  maxHeight: '500px'
+                }}
+                image={podcast.results[0].artworkUrl100}
+                alt="Image"
+              />
+              <CardContent>
+                <Typography
+                  variant="h4"
+                  color="textPrimary"
+                  key={podData.someData['im:name'].label}
+                >
+                  {podData.someData['im:name'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podData.someData.id.attributes['im:id']}
+                >
+                  by
+                  {' '}
+                  {podData.someData['im:artist'].label}
+                </Typography>
+                <br />
+                <Typography
+                  variant="h5"
+                  color="textSecondary"
+                  key={podData.someData.summary.label}
+                >
+                  Description:
+                  {' '}
+                  {podData.someData.summary.label}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
           </Card>
         </Box>
         <Divider />

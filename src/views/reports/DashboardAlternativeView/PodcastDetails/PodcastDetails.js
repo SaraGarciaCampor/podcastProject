@@ -24,8 +24,6 @@ import {
 } from '@material-ui/core';
 import { itunesService } from 'src/services/itunesService';
 import { useHistory, useLocation } from 'react-router-dom';
-import { format } from 'date-fns';
-import { toDate } from 'date-fns-tz';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -47,6 +45,7 @@ function PodcastDetails() {
   const location = useLocation();
   const history = useHistory();
   const podcastData = location.state;
+  console.log(location.state);
   const [podcast, setPodcast] = useState(null);
   const [episodes, setEpisodes] = useState(null);
 
@@ -82,13 +81,7 @@ function PodcastDetails() {
     history.push({ pathname: `/app/podcast/${id}/episode/${eid}`, state: { podcastData, ep } });
   };
 
-  const handleClickOpenPodcast = () => {
-    const id = podcastData.someData.id.attributes['im:id'];
-    history.push({ pathname: `/app/podcast/${id}`, state: podcastData });
-  };
-
   const formatDate = (dateString) => {
-    console.log(dateString);
     const date = new Date(dateString);
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -117,50 +110,46 @@ function PodcastDetails() {
         <Divider />
         <Box>
           <Card>
-            <CardActionArea
-              onClick={() => handleClickOpenPodcast}
-            >
-              <CardMedia
-                component="img"
-                className={classes.media}
-                style={{
-                  padding: 5,
-                  width: 'auto',
-                  maxHeight: '500px'
-                }}
-                image={podcast.results[0].artworkUrl100}
-                alt="Image"
-              />
-              <CardContent>
-                <Typography
-                  variant="h4"
-                  color="textPrimary"
-                  key={podcastData.someData['im:name'].label}
-                >
-                  {podcastData.someData['im:name'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podcastData.someData.id.attributes['im:id']}
-                >
-                  by
-                  {' '}
-                  {podcastData.someData['im:artist'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podcastData.someData.summary.label}
-                >
-                  Description:
-                  {' '}
-                  {podcastData.someData.summary.label}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
+            <CardMedia
+              component="img"
+              className={classes.media}
+              style={{
+                padding: 5,
+                width: 'auto',
+                maxHeight: '500px'
+              }}
+              image={podcast.results[0].artworkUrl100}
+              alt="Image"
+            />
+            <CardContent>
+              <Typography
+                variant="h4"
+                color="textPrimary"
+                key={podcastData.someData['im:name'].label}
+              >
+                {podcastData.someData['im:name'].label}
+              </Typography>
+              <br />
+              <Typography
+                variant="h5"
+                color="textSecondary"
+                key={podcastData.someData.id.attributes['im:id']}
+              >
+                by
+                {' '}
+                {podcastData.someData['im:artist'].label}
+              </Typography>
+              <br />
+              <Typography
+                variant="h5"
+                color="textSecondary"
+                key={podcastData.someData.summary.label}
+              >
+                Description:
+                {' '}
+                {podcastData.someData.summary.label}
+              </Typography>
+            </CardContent>
           </Card>
         </Box>
         <Divider />

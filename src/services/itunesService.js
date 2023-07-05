@@ -11,21 +11,54 @@ export const itunesService = {
 
 async function GetPodcasts(setPodcasts) {
   const url = new URL('https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json');
+  const currentDate = new Date();
+
   try {
+    const lastCallDate = localStorage.getItem('lastCallDate');
+    const lastResponse = localStorage.getItem('lastResponse');
+
+    if (lastCallDate && lastResponse) {
+      const twentyFourHours = 24 * 60 * 60 * 1000;
+      const timeDiff = currentDate - new Date(lastCallDate);
+
+      if (timeDiff < twentyFourHours) {
+        setPodcasts(JSON.parse(lastResponse));
+        return;
+      }
+    }
+
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
+
+    localStorage.setItem('lastCallDate', currentDate);
+    localStorage.setItem('lastResponse', JSON.stringify(data));
+
     setPodcasts(data);
   } catch (error) {
     console.error(error);
   }
 }
 
-
 async function GetPodcast(setPodcast, id) {
   const corsAnywhereUrl = 'https://cors-anywhere.herokuapp.com/';
   const itunesUrl = `https://itunes.apple.com/lookup?id=${id}`;
+  const currentDate = new Date();
 
   try {
+    const lastCallDate = localStorage.getItem('lastCallDate');
+    const lastResponse = localStorage.getItem(`podcast-${id}`);
+
+    if (lastCallDate && lastResponse) {
+      const twentyFourHours = 24 * 60 * 60 * 1000;
+      const timeDiff = currentDate - new Date(lastCallDate);
+
+      if (timeDiff < twentyFourHours) {
+        setPodcast(JSON.parse(lastResponse));
+        return;
+      }
+    }
+
     const response = await fetch(corsAnywhereUrl + itunesUrl);
 
     if (!response.ok) {
@@ -33,6 +66,11 @@ async function GetPodcast(setPodcast, id) {
     }
 
     const data = await response.json();
+    console.log(data);
+
+    localStorage.setItem('lastCallDate', currentDate);
+    localStorage.setItem(`podcast-${id}`, JSON.stringify(data));
+
     setPodcast(data);
   } catch (error) {
     console.error(error);
