@@ -124,16 +124,20 @@ function PodcastView({ className, ...rest }) {
                   <Grid item xs={2} sm={2} md={2} xl={2} justify="center" alignItems="center" key={entry.id.label}>
                     <Card className={classes.card}>
                       <CardActionArea onClick={() => handleClickOpen({ someData: entry })}>
-                        <CardMedia
-                          component="img"
-                          className={`${classes.media} ${classes.roundMedia} ${classes.centeredImage}`}
-                          style={{
-                            width: 'auto',
-                            maxHeight: '500px',
-                          }}
-                          image={entry['im:image'][2].label}
-                          alt="Image"
-                        />
+                        <Grid container justify="center">
+                          <Grid item>
+                            <CardMedia
+                              component="img"
+                              className={`${classes.media} ${classes.roundMedia}`}
+                              style={{
+                                width: 'auto',
+                                maxHeight: '500px',
+                              }}
+                              image={entry['im:image'][2].label}
+                              alt="Image"
+                            />
+                          </Grid>
+                        </Grid>
                         <CardContent className={classes.cardContent}>
                           <Typography variant="h4" color="textPrimary">
                             {entry['im:name'].label}

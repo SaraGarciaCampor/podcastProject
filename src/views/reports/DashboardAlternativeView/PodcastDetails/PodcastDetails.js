@@ -106,114 +106,114 @@ function PodcastDetails() {
       ) : (
         <>
           <Box display="flex" justifyContent="space-between">
-              <Card
-                className={clsx(classes.root)}
-                style={{ maxWidth: '25vw' }}
-              >
-                <CardHeader
-                  title="Podcast"
-                />
-                <Divider />
-                <Box>
-                  <Card>
-                    <CardMedia
-                      component="img"
-                      className={classes.media}
-                      style={{
-                        padding: 5,
-                        width: 'auto',
-                        maxHeight: '500px'
-                      }}
-                      image={podcast.results[0].artworkUrl100}
-                      alt="Image"
-                    />
-                    <CardContent>
-                      <Typography
-                        variant="h4"
-                        color="textPrimary"
-                        key={podcastData.someData['im:name'].label}
-                      >
-                        {podcastData.someData['im:name'].label}
-                      </Typography>
-                      <br />
-                      <Typography
-                        variant="h5"
-                        color="textSecondary"
-                        key={podcastData.someData.id.attributes['im:id']}
-                      >
-                        by
-                        {' '}
-                        {podcastData.someData['im:artist'].label}
-                      </Typography>
-                      <br />
-                      <Typography
-                        variant="h5"
-                        color="textSecondary"
-                        key={podcastData.someData.summary.label}
-                      >
-                        Description:
-                        {' '}
-                        {podcastData.someData.summary.label}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Box>
-                <Divider />
-              </Card>
-              <Card
-                className={clsx(classes.root)}
-                style={{ width: '75vw' }}
-              >
-                <CardHeader
-                  title="Episodes"
-                />
-                <Divider />
-                <Box>
-                  <TableContainer component={Paper}>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell variant="head">
-                            <Typography variant="textPrimary" color="textPrimary">
-                              Title
-                            </Typography>
-                          </TableCell>
-                          <TableCell variant="head">
-                            <Typography variant="textPrimary" color="textPrimary">
-                              Date
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="textPrimary" color="textPrimary">
-                              Duration
-                            </Typography>
-                          </TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {episodes && episodes.results.map((ep) => {
-                          return (
-                            <TableRow>
-                              <TableCell>
-                                <Typography onClick={() => handleClickOpen({ someData: ep })}>
-                                  {ep.trackName}
-                                </Typography>
-                              </TableCell>
-                              <TableCell>
-                                {formatDate(ep.releaseDate)}
-                              </TableCell>
-                              <TableCell>
-                                {formatTime(ep.trackTimeMillis)}
-                              </TableCell>
-                            </TableRow>
-                          );
-                        })}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                </Box>
-                <Divider />
-              </Card>
+            <Card
+              className={clsx(classes.root)}
+              style={{ maxWidth: '25vw' }}
+            >
+              <CardHeader
+                title="Podcast"
+              />
+              <Divider />
+              <Box>
+                <Card>
+                  <CardMedia
+                    component="img"
+                    className={classes.media}
+                    style={{
+                      padding: 5,
+                      width: 'auto',
+                      maxHeight: '500px'
+                    }}
+                    image={podcast.results[0].artworkUrl100}
+                    alt="Image"
+                  />
+                  <CardContent>
+                    <Typography
+                      variant="h4"
+                      color="textPrimary"
+                      key={podcastData.someData['im:name'].label}
+                    >
+                      {podcastData.someData['im:name'].label}
+                    </Typography>
+                    <br />
+                    <Typography
+                      variant="h5"
+                      color="textSecondary"
+                      key={podcastData.someData.id.attributes['im:id']}
+                    >
+                      by
+                      {' '}
+                      {podcastData.someData['im:artist'].label}
+                    </Typography>
+                    <br />
+                    <Typography
+                      variant="h5"
+                      color="textSecondary"
+                      key={podcastData.someData.summary.label}
+                    >
+                      Description:
+                      {' '}
+                      {podcastData.someData.summary.label}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+              <Divider />
+            </Card>
+            <Card
+              className={clsx(classes.root)}
+              style={{ width: '75vw' }}
+            >
+              <CardHeader
+                title="Episodes"
+              />
+              <Divider />
+              <Box>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell variant="head">
+                          <Typography variant="textPrimary" color="textPrimary">
+                            Title
+                          </Typography>
+                        </TableCell>
+                        <TableCell variant="head">
+                          <Typography variant="textPrimary" color="textPrimary">
+                            Date
+                          </Typography>
+                        </TableCell>
+                        <TableCell>
+                          <Typography variant="textPrimary" color="textPrimary">
+                            Duration
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {episodes && episodes.results.map((ep) => {
+                        return (
+                          <TableRow>
+                            <TableCell>
+                              <Typography onClick={() => handleClickOpen({ someData: ep })}>
+                                {ep.trackName}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              {formatDate(ep.releaseDate)}
+                            </TableCell>
+                            <TableCell>
+                              {formatTime(ep.trackTimeMillis)}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+              <Divider />
+            </Card>
           </Box>
         </>
       )}
