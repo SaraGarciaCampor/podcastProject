@@ -11,6 +11,7 @@ import {
   CardContent,
   CardMedia,
   Divider,
+  Grid,
   makeStyles,
   Typography,
   Table,
@@ -116,17 +117,21 @@ function PodcastDetails() {
               <Divider />
               <Box>
                 <Card>
-                  <CardMedia
-                    component="img"
-                    className={classes.media}
-                    style={{
-                      padding: 5,
-                      width: 'auto',
-                      maxHeight: '500px'
-                    }}
-                    image={podcast.results[0].artworkUrl100}
-                    alt="Image"
-                  />
+                  <Grid container justify="center">
+                    <Grid item>
+                      <CardMedia
+                        component="img"
+                        className={classes.media}
+                        style={{
+                          padding: 5,
+                          width: 'auto',
+                          maxHeight: '300px'
+                        }}
+                        image={podcast.results[0].artworkUrl600}
+                        alt="Image"
+                      />
+                    </Grid>
+                  </Grid>
                   <CardContent>
                     <Typography
                       variant="h4"
@@ -148,11 +153,16 @@ function PodcastDetails() {
                     <br />
                     <Typography
                       variant="h5"
-                      color="textSecondary"
+                      color="textPrimary"
                       key={podcastData.someData.summary.label}
                     >
                       Description:
-                      {' '}
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      color="textSecondary"
+                      key={podcastData.someData.summary.label}
+                    >
                       {podcastData.someData.summary.label}
                     </Typography>
                   </CardContent>
