@@ -25,20 +25,36 @@ import {
   Search as SearchIcon,
 } from 'react-feather';
 import { itunesService } from 'src/services/itunesService';
+import LoadingScreen from 'src/components/LoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   item: {
     textAlign: 'center',
-    flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: theme.spacing(3, 2),
     '&:not(:last-of-type)': {
       borderRight: `1px solid ${theme.palette.divider}`
     }
-  }
+  },
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardContent: {
+    textAlign: 'center',
+  },
+  centeredImage: {
+    objectPosition: 'center',
+  },
+  roundMedia: {
+    borderRadius: '50%',
+  },
 }));
 
 function PodcastView({ className, ...rest }) {
@@ -46,6 +62,7 @@ function PodcastView({ className, ...rest }) {
   const history = useHistory();
   const [podcasts, setPodcasts] = useState(null);
   const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(true);
 
   const handleClickOpen = (data) => {
     console.log(data);
@@ -55,6 +72,7 @@ function PodcastView({ className, ...rest }) {
 
   const getPodcasts = useCallback(async () => {
     await itunesService.GetPodcasts(setPodcasts);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -75,61 +93,66 @@ function PodcastView({ className, ...rest }) {
 
   return (
     <>
-      <Box mb={2} minHeight={56} display="flex" alignItems="center">
-        <TextField
-          className={classes.queryField}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SvgIcon fontSize="small" color="action">
-                  <SearchIcon />
-                </SvgIcon>
-              </InputAdornment>
-            ),
-          }}
-          placeholder="Search podcasts"
-          variant="outlined"
-          value={query}
-          onChange={handleQueryChange}
-        />
-      </Box>
-      <Card className={clsx(classes.root, className)} {...rest}>
-        <CardHeader title="Podcasts" />
-        <Divider />
-        <Box display="flex" flexWrap="wrap" flexDirection="row" p={3} minHeight={320} width="100%">
-          <Grid container spacing={2}>
-            {filteredPodcasts.map((entry) => (
-              <Grid item xs={2} sm={2} md={2} xl={2} justify="center" alignItems="center" key={entry.id.label}>
-                <Card>
-                  <CardActionArea onClick={() => handleClickOpen({ someData: entry })}>
-                    <CardMedia
-                      component="img"
-                      className={classes.media}
-                      style={{
-                        width: 'auto',
-                        maxHeight: '500px',
-                      }}
-                      image={entry['im:image'][2].label}
-                      alt="Image"
-                    />
-                    <CardContent>
-                      <Typography variant="h4" color="textPrimary">
-                        {entry['im:name'].label}
-                      </Typography>
-                      <br />
-                      <Typography variant="h6" color="textSecondary">
-                        Author:
-                        {' '}
-                        {entry['im:artist'].label}
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Box mb={2} minHeight={56} display="flex" alignItems="center">
+            <TextField
+              className={classes.queryField}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SvgIcon fontSize="small" color="action">
+                      <SearchIcon />
+                    </SvgIcon>
+                  </InputAdornment>
+                ),
+              }}
+              placeholder="Search podcasts"
+              variant="outlined"
+              value={query}
+              onChange={handleQueryChange}
+            />
+          </Box>
+          <Card className={clsx(classes.root, className)} {...rest}>
+            <CardHeader title="Podcasts" />
+            <Divider />
+            <Box display="flex" flexWrap="wrap" flexDirection="row" p={3} minHeight={320} width="100%">
+              <Grid container spacing={2}>
+                {filteredPodcasts.map((entry) => (
+                  <Grid item xs={2} sm={2} md={2} xl={2} justify="center" alignItems="center" key={entry.id.label}>
+                    <Card className={classes.card}>
+                      <CardActionArea onClick={() => handleClickOpen({ someData: entry })}>
+                        <CardMedia
+                          component="img"
+                          className={`${classes.media} ${classes.roundMedia} ${classes.centeredImage}`}
+                          style={{
+                            width: 'auto',
+                            maxHeight: '500px',
+                          }}
+                          image={entry['im:image'][2].label}
+                          alt="Image"
+                        />
+                        <CardContent className={classes.cardContent}>
+                          <Typography variant="h4" color="textPrimary">
+                            {entry['im:name'].label}
+                          </Typography>
+                          <br />
+                          <Typography variant="h6" color="textSecondary">
+                            Author:
+                            {entry['im:artist'].label}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </Box>
-      </Card>
+            </Box>
+          </Card>
+        </>
+      )}
     </>
   );
 }

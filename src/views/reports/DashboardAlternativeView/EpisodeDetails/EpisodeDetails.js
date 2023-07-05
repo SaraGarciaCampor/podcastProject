@@ -18,6 +18,7 @@ import {
 import AudioPlayer from 'src/components/AudioPlayer';
 import { itunesService } from 'src/services/itunesService';
 import { useHistory, useLocation } from 'react-router-dom';
+import LoadingScreen from 'src/components/LoadingScreen';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -42,9 +43,11 @@ function PodcastDetails() {
   const episodeData = location.state.ep;
   console.log(episodeData);
   const [podcast, setPodcast] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const getPodcastDetails = useCallback(async () => {
     await itunesService.GetPodcast(setPodcast, podData.someData.id.attributes['im:id']);
+    setLoading(false);
   }, [podData]);
 
 
@@ -68,93 +71,101 @@ function PodcastDetails() {
   };
 
   return (
-    <Box display="flex" justifyContent="space-between">
-      <Card
-        className={clsx(classes.root)}
-        style={{ maxWidth: '25vw' }}
-      >
-        <CardHeader
-          title="Podcast"
-        />
-        <Divider />
-        <Box>
-          <Card onClick={handleClickOpenPodcast}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                className={classes.media}
-                style={{
-                  padding: 5,
-                  width: 'auto',
-                  maxHeight: '500px'
-                }}
-                image={podcast.results[0].artworkUrl100}
-                alt="Image"
+    <>
+      {loading ? (
+        <LoadingScreen />
+      ) : (
+        <>
+          <Box display="flex" justifyContent="space-between">
+            <Card
+              className={clsx(classes.root)}
+              style={{ maxWidth: '25vw' }}
+            >
+              <CardHeader
+                title="Podcast"
               />
-              <CardContent>
-                <Typography
-                  variant="h4"
-                  color="textPrimary"
-                  key={podData.someData['im:name'].label}
-                >
-                  {podData.someData['im:name'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podData.someData.id.attributes['im:id']}
-                >
-                  by
-                  {' '}
-                  {podData.someData['im:artist'].label}
-                </Typography>
-                <br />
-                <Typography
-                  variant="h5"
-                  color="textSecondary"
-                  key={podData.someData.summary.label}
-                >
-                  Description:
-                  {' '}
-                  {podData.someData.summary.label}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Box>
-        <Divider />
-      </Card>
-      <Card
-        className={clsx(classes.root)}
-        style={{ width: '75vw' }}
-      >
-        <Box>
-          <Card>
-            <CardContent>
-              <Typography
-                variant="h4"
-                color="textPrimary"
-                key={episodeData.someData.trackName}
-              >
-                {episodeData.someData.trackName}
-              </Typography>
-              <br />
-              <br />
-              <Typography
-                variant="h5"
-                color="textSecondary"
-                key={podData.someData.summary.label}
-              >
-                {episodeData.someData.shortDescription}
-              </Typography>
-            </CardContent>
-            <AudioPlayer src={episodeData.someData.previewUrl} />
-          </Card>
-        </Box>
-        <Divider />
-      </Card>
-    </Box>
+              <Divider />
+              <Box>
+                <Card onClick={handleClickOpenPodcast}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      className={classes.media}
+                      style={{
+                        padding: 5,
+                        width: 'auto',
+                        maxHeight: '500px'
+                      }}
+                      image={podcast.results[0].artworkUrl100}
+                      alt="Image"
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="h4"
+                        color="textPrimary"
+                        key={podData.someData['im:name'].label}
+                      >
+                        {podData.someData['im:name'].label}
+                      </Typography>
+                      <br />
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        key={podData.someData.id.attributes['im:id']}
+                      >
+                        by
+                        {' '}
+                        {podData.someData['im:artist'].label}
+                      </Typography>
+                      <br />
+                      <Typography
+                        variant="h5"
+                        color="textSecondary"
+                        key={podData.someData.summary.label}
+                      >
+                        Description:
+                        {' '}
+                        {podData.someData.summary.label}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Box>
+              <Divider />
+            </Card>
+            <Card
+              className={clsx(classes.root)}
+              style={{ width: '75vw' }}
+            >
+              <Box>
+                <Card>
+                  <CardContent>
+                    <Typography
+                      variant="h4"
+                      color="textPrimary"
+                      key={episodeData.someData.trackName}
+                    >
+                      {episodeData.someData.trackName}
+                    </Typography>
+                    <br />
+                    <br />
+                    <Typography
+                      variant="h5"
+                      color="textSecondary"
+                      key={podData.someData.summary.label}
+                    >
+                      {episodeData.someData.shortDescription}
+                    </Typography>
+                  </CardContent>
+                  <AudioPlayer src={episodeData.someData.previewUrl} />
+                </Card>
+              </Box>
+              <Divider />
+            </Card>
+          </Box>
+        </>
+      )}
+    </>
   );
 }
 
