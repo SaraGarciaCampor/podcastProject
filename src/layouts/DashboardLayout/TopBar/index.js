@@ -5,11 +5,11 @@ import {
   AppBar,
   Box,
   Toolbar,
-  Typography,
+  Link,
   makeStyles,
 } from '@material-ui/core';
 import { THEMES } from 'src/constants';
-import { useHistory } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Settings from './Settings';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,11 +34,6 @@ function TopBar({
   ...rest
 }) {
   const classes = useStyles();
-  const history = useHistory();
-
-  const handleClickOpen = () => {
-    history.push('/app');
-  };
 
   return (
     <AppBar
@@ -46,9 +41,14 @@ function TopBar({
       {...rest}
     >
       <Toolbar className={classes.toolbar}>
-        <Typography onClick={() => handleClickOpen}>
+        <Link
+          variant="body1"
+          color="inherit"
+          to="/app"
+          component={RouterLink}
+        >
           PODCASTER
-        </Typography>
+        </Link>
         <Box
           ml={2}
           flexGrow={1}
