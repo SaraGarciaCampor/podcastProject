@@ -7,7 +7,6 @@ import clsx from 'clsx';
 import {
   Box,
   Card,
-  CardActionArea,
   CardHeader,
   CardContent,
   CardMedia,
@@ -55,7 +54,6 @@ function PodcastDetails() {
 
   const getPodcastEpisodes = useCallback(async () => {
     await itunesService.GetEpisodes(setEpisodes, podcastData.someData.id.attributes['im:id']);
-    console.log(episodes);
   }, [podcastData]);
 
   useEffect(() => {
@@ -75,7 +73,6 @@ function PodcastDetails() {
   }
 
   const handleClickOpen = (ep) => {
-    console.log(ep);
     const id = podcastData.someData.id.attributes['im:id'];
     const eid = ep.someData.trackId;
     history.push({ pathname: `/app/podcast/${id}/episode/${eid}`, state: { podcastData, ep } });

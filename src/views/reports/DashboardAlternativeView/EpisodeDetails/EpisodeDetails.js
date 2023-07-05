@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import AudioPlayer from 'src/components/AudioPlayer';
 import { itunesService } from 'src/services/itunesService';
-import { useHistory, useLocation, Link } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -40,7 +40,7 @@ function PodcastDetails() {
   const history = useHistory();
   const podData = location.state.podcastData;
   const episodeData = location.state.ep;
-  console.log(podData);
+  console.log(episodeData);
   const [podcast, setPodcast] = useState(null);
 
   const getPodcastDetails = useCallback(async () => {
@@ -64,7 +64,6 @@ function PodcastDetails() {
 
   const handleClickOpenPodcast = () => {
     const id = podData.someData.id.attributes['im:id'];
-    console.log('id');
     history.push({ pathname: `/app/podcast/${id}`, state: podData });
   };
 
@@ -150,8 +149,8 @@ function PodcastDetails() {
                 {episodeData.someData.shortDescription}
               </Typography>
             </CardContent>
+            <AudioPlayer src={episodeData.someData.previewUrl} />
           </Card>
-          <AudioPlayer src={episodeData.someData.trackViewUrl} />
         </Box>
         <Divider />
       </Card>

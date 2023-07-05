@@ -15,7 +15,6 @@ import {
 import {
   Search as SearchIcon,
 } from 'react-feather';
-import PropTypes from 'prop-types';
 import Page from 'src/components/Page';
 import { itunesService } from 'src/services/itunesService';
 import Header from './Header';
@@ -96,7 +95,6 @@ function DetailsView() {
 }
 
 DetailsView.propTypes = {
-  className: PropTypes.string
 };
 
 export default DetailsView;
